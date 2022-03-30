@@ -13,11 +13,23 @@
 			</b-form-group>
 			<hr>
 			<b-button @click="salvar" size="lg" variant="primary">Salvar</b-button>
+			<b-button @click="obterUsuarios" size="lg" class="ml-2" variant="success">Buscar Usuário</b-button>
 		</b-card>
+		<hr>
+		<b-list-group>
+		<b-list-group-item v-for="(usuario, id) in usuarios" :key="id">
+			<strong>Nome: </strong> {{ usuario.nome }} <br>
+			<strong>E-mail: </strong> {{ usuario.email }} <br>
+			<strong>ID: </strong> {{ id }} <br>
+		</b-list-group-item>
+		</b-list-group>
+
 	</div>
 </template>
 
 <script>
+//import axios from 'axios'
+
 export default {
 	// created() {
 	// 	this.$http.post('usuarios.json', {
@@ -25,8 +37,10 @@ export default {
 	// 		email:'maria@gmail.com'
 	// 	}).then(res => console.log(res))
 	// }
+
 	data() {
 		return {
+			usuarios:[],
 			usuario:{
 				nome:'',
 				email: ''
@@ -35,7 +49,20 @@ export default {
 	},
 	methods: {
 		salvar() {
-			console.log(this.usuario)
+			this.$http.post('usuarios.json', this.usuario)
+			.then(resp => {
+				this.usuario.nome = ''
+				this.usuario.email = ''
+			})
+		},
+		obterUsuarios() {
+			//acesso local com axios para isso é preciso que seja importado o componente axios
+			//axios('https://curso-vue-ad78e-default-rtdb.firebaseio.com/usuarios.json')
+			this.$http.get('usuarios.json')//this.$http
+			.then(res => {
+				this.usuarios=res.data
+				
+			})
 		}
 	}
 }

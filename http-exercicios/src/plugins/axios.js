@@ -6,6 +6,9 @@ import axios from 'axios'
 Vue.use({
     install(Vue){
         //Vue.prototype.$http = axios,
-        baseURL: 'https://curso-vue-ad78e-default-rtdb.firebaseio.com/'
-    }
+        
+        Vue.prototype.$http = axios.create({  //criando conexao com o db
+            baseURL: 'https://curso-vue-ad78e-default-rtdb.firebaseio.com/'
+        })
+    }      
 })
